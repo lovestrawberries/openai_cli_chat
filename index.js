@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { OpenAI } from "openai";
 import Table from "cli-table3";
 import chalk from "chalk";
@@ -7,8 +9,7 @@ import readlineSync from "readline-sync";
 dotenv.config();
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-const cleanToken = (token) => JSON.stringify(token); //.replace(/\s+/g, " "); // tokens often contain several escape chars e.g '?' can contain '?\n\n\n'
+const cleanToken = (token) => JSON.stringify(token); // tokens often contain several escape chars e.g '?' can contain '?\n\n\n'
 const print = (string, colour = "white") => console.log(chalk[colour](string));
 const logProbToPercent = (logProb) => (Math.exp(logProb) * 100).toFixed(6);
 
@@ -35,9 +36,8 @@ async function chat() {
       });
 
       const reply = response.choices[0].message.content;
-      print(`ChatGPT: ${reply}\n`, "green");
 
-      // print out the logarithimc propabilities for each work (token)
+      // print out the logarithimc propabilities for each word (token)
       const tokensData = response.choices[0].logprobs.content;
       const table = new Table({
         head: [
@@ -62,14 +62,13 @@ async function chat() {
                 : logProbToPercent(alternative.logprob),
           }))
         );
-        // format into single row
-        console.log(options);
-        const row = options.map((o) => `${o.token} ${o.probability}`);
-        console.log(row);
+
+        const row = options.map((o) => `${o.token} ${o.probability}`); // format into single row
         table.push(row);
       });
-      print(table.toString());
       messages.push({ role: "assistant", content: reply });
+      print(table.toString());
+      print(`ChatGPT: ${reply}\n`, "green");
     } catch (error) {
       console.error(chalk.redBright("Error:", error));
     }

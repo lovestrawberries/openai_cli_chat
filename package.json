@@ -7,7 +7,10 @@
     "chat": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "bin": {
+    "aichat": "./index.js"
+  },
+  "author": "lovestrawberries - https://github.com/lovestrawberries",
   "license": "ISC",
   "type": "module",
   "dependencies": {

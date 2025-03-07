@@ -12,6 +12,7 @@ Fast JavaScript CLI tool that lets you chat with an AI in the terminal while dis
 
 To run:
 
-1. Create .env file and add this line `OPENAI_API_KEY=your_access_token_here`
+1. Create .env file in project root and add this line `OPENAI_API_KEY=your_access_token_here`
 2. Run `npm i`
 3. Run `npm run chat`
+   3b. Alternatively add `export OPENAI_API_KEY=your_access_token_here` in your shell's config (bashrc, zshrc etc). Then run `npm link` in project root to link executable. Now you can run chat from anywhere in terminal just by typing `aichat`
